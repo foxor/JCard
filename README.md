@@ -33,3 +33,14 @@ Backend
 The backend processes the game rules and synchronizes state between players in a game.
 
 The rules for a game are submitted by a user in a YAML file and processed as a domain specific language, yet to be named.
+
+
+Implementation Plan
+===================
+
+1.  A game with a single card starting on the left side of the screen, that moves to the right side of the screen when clicked.  Then you win.
+2.  ...
+3.  Blackjack
+4.  Chess
+5.  Magic: the gathering
+6.  Dominion
