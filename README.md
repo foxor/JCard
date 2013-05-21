@@ -33,5 +33,3 @@ Backend
 The backend processes the game rules and synchronizes state between players in a game.
 
 The rules for a game are submitted by a user in a YAML file and processed as a domain specific language, yet to be named.
-
-Games 
