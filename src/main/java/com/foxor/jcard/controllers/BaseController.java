@@ -1,6 +1,8 @@
 
 package com.foxor.jcard.controllers;
 
+import java.util.Map;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -17,7 +19,8 @@ public class BaseController {
     @Path("startgame")
     @Produces("text/yaml")
     public String startGame(String yamlRules) {
-        Object rules = yaml.load(yamlRules);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> rules = (Map<String, Object>)yaml.load(yamlRules);
         return yaml.dump(rules);
     }
     
