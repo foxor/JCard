@@ -8,19 +8,17 @@ import javax.ws.rs.Produces;
 
 import org.yaml.snakeyaml.Yaml;
 
-import com.google.inject.Inject;
-
 @Path("/api/1")
 public class BaseController {
     
-    @Inject
-    protected Yaml yaml;
+    protected Yaml yaml = new Yaml();
     
     @PUT
     @Path("startgame")
     @Produces("text/yaml")
-    public String startGame() {
-        return "Hi there!";
+    public String startGame(String yamlRules) {
+        Object rules = yaml.load(yamlRules);
+        return yaml.dump(rules);
     }
     
     @GET
