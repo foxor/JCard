@@ -17,14 +17,15 @@ public class SerializationTest {
         Yaml yaml = new Yaml();
         Map<String, Object> rules = (Map<String, Object>)yaml.load(
                 "rules: [" +
-                "  !!com.foxor.jcard.models.Card {id: \"test\"}," +
-                "  !!com.foxor.jcard.models.Rule {code: \"#test begins in the left zone\"}," +
-                "  !!com.foxor.jcard.models.Rule {code: \"When a player clicks a card in the left zone: move that card to the right\"}," +
                 "  !!com.foxor.jcard.models.Zone {x: 0, y: 0,   width: 0.2, height: 1, name: \"left\" }," +
-                "  !!com.foxor.jcard.models.Zone {x: 0, y: 0.8, width: 0.2, height: 1, name: \"right\"}" +
+                "  !!com.foxor.jcard.models.Zone {x: 0, y: 0.8, width: 0.2, height: 1, name: \"right\"}," +
+                "  !!com.foxor.jcard.models.Card {id: \"test\"}," +
+                "  !!com.foxor.jcard.models.Rule {code: \"moveTo #test #left\"}," +
+                "  !!com.foxor.jcard.models.Rule {code: \"on .Card click (if this.zone #left (moveTo this #right))\"}," +
                 "]"
         );
-        Assert.assertEquals(((Card)((List<Object>)rules.get("rules")).get(0)).getId(), "test");
-        Assert.assertEquals(((Zone)((List<Object>)rules.get("rules")).get(4)).getName(), "right");
+        Assert.assertEquals(((Zone)((List<Object>)rules.get("rules")).get(0)).getName(), "left");
+        Assert.assertEquals(((Zone)((List<Object>)rules.get("rules")).get(1)).getName(), "right");
+        Assert.assertEquals(((Card)((List<Object>)rules.get("rules")).get(2)).getId(), "test");
     }
 }
