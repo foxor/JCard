@@ -35,6 +35,19 @@ The backend processes the game rules and synchronizes state between players in a
 The rules for a game are submitted by a user in a YAML file and processed as a domain specific language, yet to be named.
 
 
+API
+===
+
+*   api/1/startgame PUT raw YAML
+    *   Process the file submitted as a rules specification YAML.
+    *   Sucessful:
+        *   Return 200 with JSON {"gameid": <gameid>}
+    *   Error:
+        *   Return error code with JSON {"error": <internal code>, "message": <client message>}
+*   api/1/<gameid> POST raw YAML
+    *   Lookup gameid, load YAML, process
+    *   Return YAML file with instructiosn for front end.
+
 Implementation Plan
 ===================
 
