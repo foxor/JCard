@@ -1,13 +1,13 @@
 package com.foxor.jcard.geml.expressions;
 
 public class On extends Expression {
-    protected String target;
+    protected Expression target;
     protected String event;
     protected Expression callback;
-    public String getTarget() {
+    public Expression getTarget() {
         return target;
     }
-    public void setTarget(String target) {
+    public void setTarget(Expression target) {
         this.target = target;
     }
     public String getEvent() {

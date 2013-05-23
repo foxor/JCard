@@ -25,7 +25,7 @@ public class SerializationTest {
                 "  &right !!Zone {x: 0, y: 0.8, width: 0.2, height: 1}," +
                 "  &card !!Card {}," +
                 "  !!MoveTo {card: *card, zone: *left}," +
-                "  !!On {target: \"$(.Card)\", event: \"click\", callback: " +
+                "  !!On {target: !!All {ofClass: \"Card\"}, event: \"click\", callback: " +
                 "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: " +
                 "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}" +
                 "  }," +
@@ -34,6 +34,6 @@ public class SerializationTest {
         Assert.assertEquals(rules.get(0).getClass(), Zone.class);
         Assert.assertEquals(rules.get(1).getClass(), Zone.class);
         Assert.assertEquals(rules.get(2).getClass(), Card.class);
-        Assert.assertEquals(rules.get(0), ((Equals)((If)((On)rules.get(4)).getCallback()).getCondition()).getTest()[1]);
+        Assert.assertTrue(rules.get(0) == ((Equals)((If)((On)rules.get(4)).getCallback()).getCondition()).getTest()[1]);
     }
 }
