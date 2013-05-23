@@ -51,8 +51,20 @@ These are the GEML expressions, and how to use them:
    *  Client: Not used
 *  Card:
    *  Params: None
-   *  Server: Create a card object, then check for any triggers and propogate
+   *  Server: Create a card object, then check for any triggers and propogate.  Send to client
    *  Client: Create a card object, then create DOM representation is necessary
+*  Click
+   *  Params:
+      *  Required:
+         *  target: the object that was returned
+   *  Server: Check for any triggers and propogate
+   *  Client: Create these when the player clicks on things.  Send to the server
+*  Client:
+   *  Params:
+      *  Required:
+         *  action: an expression that describes the player action
+   *  Server: Not Used
+   *  Client: Not Used
 *  Equals:
    *  Params:
       *  Required:
@@ -66,12 +78,14 @@ These are the GEML expressions, and how to use them:
       *  Optional:
          *  then: an expression to evaluate if condition is true
          *  else: an expression to evaluate if condition is false
+   *  Server: Evaluate the condition, then evaluate the callbacks based on the condition value
+   *  Client: Not used
 *  MoveTo:
    *  Params:
       *  Required:
          *  card: the card to move
          *  zone: the zone to move the card to
-   *  Server: Move the card, then check for any triggers and propogate
+   *  Server: Move the card, then check for any triggers and propogate.  Send to client
    *  Client: Move the card
 *  On:
    *  Params:
@@ -81,12 +95,30 @@ These are the GEML expressions, and how to use them:
          *  callback: an expression that is evaluated when the event occurs
       *  Server: Register the event listener
       *  Client: Not used
+*  Ply:
+   *  Params:
+      *  Required:
+         *  messages: a list of expressions, recording the messages passted back and forth
+   *  Server: Execute each expression
+   *  Client: Not Used
 *  Property:
    *  Params:
       *  Required:
          *  name: the name of the local variable to retrieve
    *  Server: Used during callbacks when there is a specific context on which to call a get function.  The string literal "this" returns the local context object itself.
    *  Client: Not used
+*  Server:
+   *  Params:
+      *  Required:
+         *  action: A message passed from the server to the client
+   *  Server: Execute the action
+   *  Client: Not Used
+*  SendMessage:
+   *  Params:
+      *  Required:
+         *  text: the text of the message to display
+   *  Server: Send to client
+   *  Client: Display message
 *  Zone:
    *  Params:
       *  Optional:
@@ -94,7 +126,7 @@ These are the GEML expressions, and how to use them:
          *  y: the y coordinate of the top edge, expressed as a portion of the height of the game area
          *  width: the width of the zone, expressed as a portion of the width of the game area
          *  height: the height of the zone, expressed as a portion of the height of the game area
-   *  Server: Create a zone object, then check for any triggers and propogate
+   *  Server: Create a zone object, then check for any triggers and propogate.  Send to the Client
    *  Client: Create a zone object, then create DOM representation is necessary
 
 

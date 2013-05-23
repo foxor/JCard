@@ -20,16 +20,27 @@ public class SerializationTest {
     public void testBasicGame() {
         Yaml yaml = new Yaml();
         String testGeml = 
-                "rules: [" +
-                "  &left  !!Zone {x: 0, y: 0,   width: 0.2, height: 1}," +
-                "  &right !!Zone {x: 0, y: 0.8, width: 0.2, height: 1}," +
-                "  &card !!Card {}," +
-                "  !!MoveTo {card: *card, zone: *left}," +
-                "  !!On {target: !!All {ofClass: \"Card\"}, event: \"click\", callback: " +
-                "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: " +
-                "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}" +
-                "  }," +
-                "]";
+                "rules: [\n" +
+                "  &left  !!Zone {x: 0, y: 0,   width: 0.2, height: 1},\n" +
+                "  &right !!Zone {x: 0, y: 0.8, width: 0.2, height: 1},\n" +
+                "  &card !!Card {},\n" +
+                "  !!MoveTo {card: *card, zone: *left},\n" +
+                "  !!On {target: !!All {ofClass: \"Card\"}, event: \"Click\", callback: \n" +
+                "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: \n" +
+                "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}\n" +
+                "  },\n" +
+                "  !!On {target: !!All {ofClass: \"Card\"}, event: \"MoveTo\", callback: \n" +
+                "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *right]}, then: \n" +
+                "    !!ShowMessage {text: \"You Win!\"}},\n" +
+                "  }\n" +
+                "]\n" +
+                "turns: [\n" +
+                "  !!Ply {messages: [\n" +
+                "    !!Client {action: !!Click {target: *card}},\n" +
+                "    !!Server {action: !!MoveTo {card: *card, zone: *right}},\n" +
+                "    !!Server {action: !!ShowMessage {text: \"You Win!\"}},\n" +
+                "  ]}\n" +
+                "]\n";
         List<Object> rules = (List<Object>)((Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml))).get("rules"); 
         Assert.assertEquals(rules.get(0).getClass(), Zone.class);
         Assert.assertEquals(rules.get(1).getClass(), Zone.class);
