@@ -46,7 +46,8 @@ These are the GEML expressions, and how to use them:
 
 *  All:
    *  Params:
-      *  ofClass: expression that returns a string
+      *  Required:
+         *  ofClass: expression that returns a string
    *  Server: Return all objects of that class
    *  Client: Not used
 *  Card:
