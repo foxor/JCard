@@ -9,6 +9,9 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.foxor.jcard.controllers.BaseController;
 import com.foxor.jcard.geml.expressions.Card;
+import com.foxor.jcard.geml.expressions.Equals;
+import com.foxor.jcard.geml.expressions.If;
+import com.foxor.jcard.geml.expressions.On;
 import com.foxor.jcard.geml.expressions.Zone;
 
 public class SerializationTest {
@@ -24,11 +27,13 @@ public class SerializationTest {
                 "  !!MoveTo {card: *card, zone: *left}," +
                 "  !!On {target: \"$(.Card)\", event: \"click\", callback: " +
                 "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: " +
-                "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}}," +
+                "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}" +
+                "  }," +
                 "]";
-        Map<String, Object> rules = (Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml));
-        Assert.assertEquals(((List<Object>)rules.get("rules")).get(0).getClass(), Zone.class);
-        Assert.assertEquals(((List<Object>)rules.get("rules")).get(1).getClass(), Zone.class);
-        Assert.assertEquals(((List<Object>)rules.get("rules")).get(2).getClass(), Card.class);
+        List<Object> rules = (List<Object>)((Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml))).get("rules"); 
+        Assert.assertEquals(rules.get(0).getClass(), Zone.class);
+        Assert.assertEquals(rules.get(1).getClass(), Zone.class);
+        Assert.assertEquals(rules.get(2).getClass(), Card.class);
+        Assert.assertEquals(rules.get(0), ((Equals)((If)((On)rules.get(4)).getCallback()).getCondition()).getTest()[1]);
     }
 }
