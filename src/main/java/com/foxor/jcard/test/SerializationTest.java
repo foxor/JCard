@@ -23,7 +23,7 @@ public class SerializationTest {
                 "  &card !!Card {}," +
                 "  !!MoveTo {card: *card, zone: *left}," +
                 "  !!On {target: \"$(.Card)\", event: \"click\", callback: " +
-                "    !!If {condition: !!Equals {left: !!Property {name: \"zone\"}, right: *left}, then: " +
+                "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: " +
                 "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}}," +
                 "]";
         Map<String, Object> rules = (Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml));

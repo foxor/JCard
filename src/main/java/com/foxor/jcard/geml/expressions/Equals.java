@@ -1,18 +1,11 @@
 package com.foxor.jcard.geml.expressions;
 
 public class Equals extends Expression{
-    protected Expression left;
-    protected Expression right;
-    public Expression getLeft() {
-        return left;
+    protected Expression[] test;
+    public Expression[] getTest() {
+        return test;
     }
-    public void setLeft(Expression left) {
-        this.left = left;
-    }
-    public Expression getRight() {
-        return right;
-    }
-    public void setRight(Expression right) {
-        this.right = right;
+    public void setTest(Expression[] test) {
+        this.test = test;
     }
 }
