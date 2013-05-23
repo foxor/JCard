@@ -1,6 +1,6 @@
-package com.foxor.jcard.models;
+package com.foxor.jcard.geml.expressions;
 
-public class Zone {
+public class Zone extends Expression {
     
     public Zone() {}
     
@@ -8,7 +8,6 @@ public class Zone {
     protected float y;
     protected float width;
     protected float height;
-    protected String name;
     
     public float getX() {
         return x;
@@ -33,11 +32,5 @@ public class Zone {
     }
     public void setHeight(float height) {
         this.height = height;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
 }

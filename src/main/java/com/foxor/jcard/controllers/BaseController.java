@@ -14,6 +14,10 @@ public class BaseController {
     
     protected Yaml yaml = new Yaml();
     
+    public static String GemlToYaml(String geml) {
+        return geml.replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
+    }
+    
     @PUT
     @Path("startgame")
     @Produces("text/yaml")
