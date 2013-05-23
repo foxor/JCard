@@ -137,12 +137,12 @@ API
 *   api/1/startgame PUT raw GEML
     *   Process the file submitted as a rules specification GEML.
     *   Sucessful:
-        *   Return 200 with JSON {"gameid": <gameid>}
+        *   Return 200 with YAML {"gameid": gameid}
     *   Error:
-        *   Return error code with JSON {"error": <internal code>, "message": <client message>}
-*   api/1/<gameid> POST raw GEML
+        *   Return error code with YAML {"error": internal code, "message": client message}
+*   api/1/{gameid} POST raw GEML
     *   Lookup gameid, load GEML, process
-    *   Return GEML file with instructiosn for front end.
+    *   Return GEML file with instructions for front end.
 
 Implementation Plan
 ===================
