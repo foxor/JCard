@@ -4,8 +4,24 @@ import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.GObject;
 import com.foxor.jcard.geml.Machine;
 
+/**
+ * 
+ * All is a utility expression for map + filter on GObjects known to the machine
+ * 
+ * Server Only
+ * 
+ * @author ijames1
+ *
+ */
 public class All extends Expression {
+    /**
+     * Filters GObjects to those that match !!ofClass in GEML
+     */
     protected String ofClass;
+    
+    /**
+     * A function to map across all matched expressions
+     */
     protected Expression callback;
 
     public Expression getCallback() {

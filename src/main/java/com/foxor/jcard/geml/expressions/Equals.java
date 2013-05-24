@@ -3,7 +3,19 @@ package com.foxor.jcard.geml.expressions;
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
 
-public class Equals extends Expression{
+/**
+ * 
+ * A boolean expression for branching conditionals.  Tests if all test expressions evaluate to equal expressions
+ * 
+ * Server Only
+ * 
+ * @author ijames1
+ *
+ */
+public class Equals extends Expression {
+    /**
+     * A list of expressions to test
+     */
     protected Expression[] test;
     public Expression[] getTest() {
         return test;

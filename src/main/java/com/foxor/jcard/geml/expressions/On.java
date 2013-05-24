@@ -3,10 +3,30 @@ package com.foxor.jcard.geml.expressions;
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.GObject;
 import com.foxor.jcard.geml.Machine;
-
+/**
+ * 
+ * On creates event listeners on GObjects
+ * 
+ * Server only
+ * 
+ * @author ijames1
+ *
+ */
 public class On extends Expression {
+    
+    /**
+     * An expression that evaluates to the GObject on which to place the event listener
+     */
     protected Expression target;
+    
+    /**
+     * The literal string to listen to.  The !!X name of the message expression
+     */
     protected String event;
+    
+    /**
+     * The expression to call, with target as context
+     */
     protected Expression callback;
     public Expression getTarget() {
         return target;
@@ -34,7 +54,7 @@ public class On extends Expression {
             target = m.getContext();
         }
         if (target != null && GObject.class.isAssignableFrom(target.getClass())) {
-            ((GObject)target).addEventListener(event, callback);
+            ((GObject)target.execute(m)).addEventListener(event, callback);
         }
         target = oldTarget;
         return this;
