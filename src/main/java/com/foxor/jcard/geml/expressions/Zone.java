@@ -1,6 +1,8 @@
 package com.foxor.jcard.geml.expressions;
 
-public class Zone extends Expression {
+import com.foxor.jcard.geml.GObject;
+
+public class Zone extends GObject {
     
     public Zone() {}
     

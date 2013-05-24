@@ -47,8 +47,10 @@ These are the GEML expressions, and how to use them:
 *  All:
    *  Params:
       *  Required:
+         *  callback: callback expression for each matched object
+      *  Optional:
          *  ofClass: expression that returns a string
-   *  Server: Return all objects of that class
+   *  Server: Evaluate this expression with each matched object as context
    *  Client: Not used
 *  Card:
    *  Params: None
@@ -64,12 +66,12 @@ These are the GEML expressions, and how to use them:
    *  Params:
       *  Required:
          *  action: an expression that describes the player action
-   *  Server: Not Used
+   *  Server: Execute the action
    *  Client: Not Used
 *  Equals:
    *  Params:
       *  Required:
-         *  test: an array of expressions.  If all of them are the same, call then, otherwise call else.
+         *  test: an array of expressions.  If all of them are the same, call return that value, else false
    *  Server: Used for boolean logic
    *  Client: Not used
 *  If:
@@ -78,22 +80,24 @@ These are the GEML expressions, and how to use them:
          *  condition: a boolean expression which is evaluated
       *  Optional:
          *  then: an expression to evaluate if condition is true
-         *  else: an expression to evaluate if condition is false
+         *  otherwise: an expression to evaluate if condition is false
    *  Server: Evaluate the condition, then evaluate the callbacks based on the condition value
    *  Client: Not used
 *  MoveTo:
    *  Params:
       *  Required:
-         *  card: the card to move
          *  zone: the zone to move the card to
+      *  Optional:
+         *  card: the card to move.  Otherwise use the context
    *  Server: Move the card, then check for any triggers and propogate.  Send to client
    *  Client: Move the card
 *  On:
    *  Params:
       *  Required:
-         *  target: an expression that returns the object on which to place the event listener
          *  event: a string describing the event to listen to
          *  callback: an expression that is evaluated when the event occurs
+      *  Optional:
+         *  target: an expression that returns the object on which to place the event listener.  If not supplied, use context
       *  Server: Register the event listener
       *  Client: Not used
 *  Ply:

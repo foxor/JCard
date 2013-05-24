@@ -25,14 +25,14 @@ public class SerializationTest {
                 "  &right !!Zone {x: 0, y: 0.8, width: 0.2, height: 1},\n" +
                 "  &card !!Card {},\n" +
                 "  !!MoveTo {card: *card, zone: *left},\n" +
-                "  !!On {target: !!All {ofClass: \"Card\"}, event: \"Click\", callback: \n" +
+                "  !!On {target: *card, event: \"Click\", callback: \n" +
                 "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: \n" +
-                "    !!MoveTo {card: !!Property {name: \"this\"}, zone: *right}}\n" +
+                "    !!MoveTo {zone: *right}}\n" +
                 "  },\n" +
-                "  !!On {target: !!All {ofClass: \"Card\"}, event: \"MoveTo\", callback: \n" +
+                "  !!All {ofClass: \"Card\", callback: !!On {event: \"MoveTo\", callback: \n" +
                 "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *right]}, then: \n" +
                 "    !!ShowMessage {text: \"You Win!\"}},\n" +
-                "  }\n" +
+                "  }}\n" +
                 "]\n" +
                 "turns: [\n" +
                 "  !!Ply {messages: [\n" +
