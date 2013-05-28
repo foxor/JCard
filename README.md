@@ -61,8 +61,7 @@ Implementation Plan
 ===================
 
 1.  A game with a single card starting on the left side of the screen, that moves to the right side of the screen when clicked.  Then you win.
-2.  ...
-3.  Blackjack
-4.  Chess
-5.  Magic: the gathering
-6.  Dominion
+2.  Blackjack
+3.  Chess
+4.  Magic: the gathering
+5.  Dominion

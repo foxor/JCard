@@ -33,6 +33,39 @@ public class Zone extends GObject {
      */
     protected float height;
     
+    /**
+     * A label to display to the user
+     */
+    protected String label;
+    
+    /**
+     * Whether the contents of this zone, and the zone itself should be displayed
+     */
+    protected boolean hidden;
+    
+    /**
+     * Whether this zone contains cards that should be dealt randomly
+     */
+    protected boolean shuffled;
+    
+    public boolean isHidden() {
+        return hidden;
+    }
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+    public boolean isShuffled() {
+        return shuffled;
+    }
+    public void setShuffled(boolean shuffled) {
+        this.shuffled = shuffled;
+    }
+    public String getLabel() {
+        return label;
+    }
+    public void setLabel(String label) {
+        this.label = label;
+    }
     public float getX() {
         return x;
     }

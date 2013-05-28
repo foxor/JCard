@@ -42,15 +42,15 @@ public class All extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        GObject oldContext = m.getContext();
-        for (GObject obj : m.getObjects()) {
+        m.pushFrame();
+        for (GObject obj : m.getGlobals()) {
             if (ofClass != null && !obj.getClass().getName().endsWith(ofClass)) {
                 continue;
             }
             m.setContext(obj);
             callback.execute(m);
         }
-        m.setContext(oldContext);
+        m.popFrame();
         return this;
     }
 }

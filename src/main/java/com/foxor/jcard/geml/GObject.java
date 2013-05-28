@@ -4,10 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GObject extends Expression {
+    
+    /**
+     * The event listeners attached to this object.  These are not serializable, just created by the machine at runtime
+     */
     protected Map<String, Expression> eventListeners;
     
+    /**
+     * The id of this object.
+     * 
+     * Sometimes it's not possible to generate YAML with the correct anchors since, it is part of a larger GEML document.
+     * 
+     * Ids are used on the client and server to retrieve specific objects.
+     */
     protected String id;
     
+    /**
+     * A place to put game-specific metadata.
+     * 
+     * This data should be retrieveable from !!Property on client and server
+     */
+    protected Map<String, Object> data;
+    
+    public Map<String, Object> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, Object> data) {
+        this.data = data;
+    }
+
     public String getId() {
         return id;
     }
@@ -26,16 +52,16 @@ public abstract class GObject extends Expression {
     
     public void triggerEvent(String event, Machine m) throws Exception {
         if (eventListeners.containsKey(event)) {
-            GObject context = m.getContext();
+            m.pushFrame();
             m.setContext(this);
             eventListeners.get(event).execute(m);
-            m.setContext(context);
+            m.popFrame();
         }
     }
     
     @Override
     public Expression execute(Machine m) throws Exception {
-        m.addObject(this);
+        m.addGlobal(this);
         return this;
     }
 }

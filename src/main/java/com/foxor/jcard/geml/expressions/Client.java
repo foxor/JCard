@@ -19,6 +19,19 @@ public class Client extends Expression {
      * The action submitted by the client
      */
     protected Expression action;
+    
+    /**
+     * The milliseconds of the time at which this message was received.  This is the seed for any random vars generated
+     */
+    protected int receiveMs;
+
+    public int getReceiveMs() {
+        return receiveMs;
+    }
+
+    public void setReceiveMs(int receiveMs) {
+        this.receiveMs = receiveMs;
+    }
 
     public Expression getAction() {
         return action;

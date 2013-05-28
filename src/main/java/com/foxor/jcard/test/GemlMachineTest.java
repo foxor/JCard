@@ -49,4 +49,29 @@ public class GemlMachineTest {
         Assert.assertEquals(((Zone)((MoveTo)yaml.load(producedExpressions.get(0))).getZone()).getId(), "right");
         Assert.assertEquals(((ShowMessage)yaml.load(producedExpressions.get(1))).getText(), "You Win!");
     }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void blackJackTest() {
+        Yaml yaml = new Yaml();
+        String rules = 
+                "rules: [\n" +
+                "  &hit !!Zone {label: \"Hit\", id: \"hit\"},\n" +
+                "  &stand !!Zone {label: \"Stand\", id: \"stand\"},\n" +
+                "  &deck !!Zone {hidden: true, shuffled: true, id: \"deck\"},\n" +
+                "  !!For {name: suit, in: [\"hearts\", \"spades\", \"diamonds\", \"clubs\"], loop: [\n" +
+                "    !!For {name: value, in: [2, 3, 4, 5, 6, 7, 8, 9, 10, \"jack\", \"queen\", \"king\", \"ace\"], loop:[\n" +
+                "      !!Assign {name: card, value: !!Card {data: {suit: !!Local {name: \"suit\"}, name: !!Local {name: \"value\"}}}},\n" +
+                "      !!MoveTo {card: !!Local {name: \"card\"}, zone: *deck}\n" +
+                "    ]}\n" +
+                "  ]}\n" +
+                "]\n" +
+                "turns: [\n" +
+                "  !!Ply {messages: [\n" +
+                "    !!Client {action: !!Click {target: *hit}, receiveMs: 944},\n" +
+                "  ]}\n" +
+                "]\n";
+        Map<String, Object> testGemlLoaded = ((Map<String, Object>)yaml.load(BaseController.GemlToYaml(rules)));
+        yaml.dump(testGemlLoaded);
+    }
 }
