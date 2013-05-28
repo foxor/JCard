@@ -2,6 +2,7 @@ package com.foxor.jcard.geml.expressions;
 
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
+import com.foxor.jcard.geml.Type;
 
 /**
  * 
@@ -55,7 +56,14 @@ public class For extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        for(Object pojo : in) {
+            m.pushFrame();
+            m.addLocal(name, Type.TypeBox(pojo));
+            for (Expression e : loop) {
+                e.execute(m);
+            }
+            m.popFrame();
+        }
+        return this;
     }
 }

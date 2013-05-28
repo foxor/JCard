@@ -52,9 +52,9 @@ public class GemlMachineTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void blackJackTest() {
+    public void blackJackTest() throws Exception {
         Yaml yaml = new Yaml();
-        String rules = 
+        String testGeml = 
                 "rules: [\n" +
                 "  &hit !!Zone {label: \"Hit\", id: \"hit\"},\n" +
                 "  &stand !!Zone {label: \"Stand\", id: \"stand\"},\n" +
@@ -71,7 +71,10 @@ public class GemlMachineTest {
                 "    !!Client {action: !!Click {target: *hit}, receiveMs: 944},\n" +
                 "  ]}\n" +
                 "]\n";
-        Map<String, Object> testGemlLoaded = ((Map<String, Object>)yaml.load(BaseController.GemlToYaml(rules)));
-        yaml.dump(testGemlLoaded);
+        Map<String, Object> testGemlLoaded = ((Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml)));
+        List<Expression> rules = (List<Expression>)testGemlLoaded.get("rules");
+        List<Expression> turns = (List<Expression>)testGemlLoaded.get("turns");
+        Machine machine = new Machine();
+        List<String> serverMessages = machine.process(rules, turns);
     }
 }

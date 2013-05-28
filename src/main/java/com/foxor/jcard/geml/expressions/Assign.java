@@ -1,6 +1,7 @@
 package com.foxor.jcard.geml.expressions;
 
 import com.foxor.jcard.geml.Expression;
+import com.foxor.jcard.geml.GObject;
 import com.foxor.jcard.geml.Machine;
 
 /**
@@ -22,7 +23,7 @@ public class Assign extends Expression {
     /**
      * The data that the variable holds
      */
-    protected Expression value;
+    protected GObject value;
 
     public String getName() {
         return name;
@@ -32,18 +33,17 @@ public class Assign extends Expression {
         this.name = name;
     }
 
-    public Expression getValue() {
+    public GObject getValue() {
         return value;
     }
 
-    public void setValue(Expression value) {
+    public void setValue(GObject value) {
         this.value = value;
     }
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        m.addLocal(name, value);
+        return this;
     }
-
 }

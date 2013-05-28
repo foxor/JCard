@@ -42,6 +42,7 @@ public class Machine {
         outgoingMessages = new ArrayList<String>();
         frames = new Stack<Machine.Frame>();
         frames.push(new Frame(null, new HashMap<String, GObject>()));
+        globals = new HashMap<String, GObject>();
         yaml = new Yaml();
     }
     

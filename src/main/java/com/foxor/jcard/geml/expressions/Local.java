@@ -27,8 +27,6 @@ public class Local extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        return m.getLocal(name);
     }
-
 }

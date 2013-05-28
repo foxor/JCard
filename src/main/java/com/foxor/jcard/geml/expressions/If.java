@@ -2,6 +2,7 @@ package com.foxor.jcard.geml.expressions;
 
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
+import com.foxor.jcard.geml.Type;
 
 /**
  * 
@@ -51,7 +52,8 @@ public class If extends Expression {
     @Override
     public Expression execute(Machine m) throws Exception {
         Expression conditionValue = condition.execute(m);
-        if (conditionValue == null || (Boolean.class.isAssignableFrom(conditionValue.getClass()) && !((Boolean)conditionValue).getValue())) {
+        Type<Boolean> falsehood = Type.TypeBox(false);
+        if (conditionValue == null || falsehood.equals(conditionValue)) {
             return otherwise.execute(m);
         }
         else {
