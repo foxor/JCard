@@ -24,13 +24,13 @@ public abstract class GObject extends Expression {
      * 
      * This data should be retrieveable from !!Property on client and server
      */
-    protected Map<String, Object> data;
+    protected Map<String, Expression> data;
     
-    public Map<String, Object> getData() {
+    public Map<String, Expression> getData() {
         return data;
     }
 
-    public void setData(Map<String, Object> data) {
+    public void setData(Map<String, Expression> data) {
         this.data = data;
     }
 
@@ -61,6 +61,13 @@ public abstract class GObject extends Expression {
     
     @Override
     public Expression execute(Machine m) throws Exception {
+        if (data != null) {
+            Map<String, Expression> localData = new HashMap<String, Expression>();
+            for (String key : this.data.keySet()) {
+                localData.put(key, this.data.get(key).execute(m));
+            }
+            this.data = localData;
+        }
         m.addGlobal(this);
         return this;
     }

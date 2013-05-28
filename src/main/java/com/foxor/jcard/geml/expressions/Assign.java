@@ -43,7 +43,7 @@ public class Assign extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        m.addLocal(name, value);
+        m.addLocal(name, (GObject)value.execute(m));
         return this;
     }
 }
