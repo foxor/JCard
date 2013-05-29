@@ -24,4 +24,9 @@ public class Card extends GObject {
     public void setZone(Expression zone) {
         this.zone = zone;
     }
+    
+    public static void LinkCardZone(Expression card, Expression zone) {
+        ((Card)card).setZone(zone);
+        ((Zone)zone).addCard(card);
+    }
 }

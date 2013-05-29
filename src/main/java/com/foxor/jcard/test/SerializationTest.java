@@ -25,14 +25,14 @@ public class SerializationTest {
                 "  &right !!Zone {x: 0, y: 0.8, width: 0.2, height: 1},\n" +
                 "  &card !!Card {},\n" +
                 "  !!MoveTo {card: *card, zone: *left},\n" +
-                "  !!On {target: *card, event: \"Click\", callback: \n" +
+                "  !!On {target: *card, event: \"Click\", callback: [\n" +
                 "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *left]}, then: \n" +
                 "    !!MoveTo {zone: *right}}\n" +
-                "  },\n" +
-                "  !!All {ofClass: \"Card\", callback: !!On {event: \"MoveTo\", callback: \n" +
+                "  ]},\n" +
+                "  !!All {ofClass: \"Card\", callback: !!On {event: \"MoveTo\", callback: [\n" +
                 "    !!If {condition: !!Equals {test: [!!Property {name: \"zone\"}, *right]}, then: \n" +
                 "    !!ShowMessage {text: \"You Win!\"}},\n" +
-                "  }}\n" +
+                "  ]}}\n" +
                 "]\n" +
                 "turns: [\n" +
                 "  !!Ply {messages: [\n" +
@@ -45,6 +45,6 @@ public class SerializationTest {
         Assert.assertEquals(rules.get(0).getClass(), Zone.class);
         Assert.assertEquals(rules.get(1).getClass(), Zone.class);
         Assert.assertEquals(rules.get(2).getClass(), Card.class);
-        Assert.assertTrue(rules.get(0) == ((Equals)((If)((On)rules.get(4)).getCallback()).getCondition()).getTest()[1]);
+        Assert.assertTrue(rules.get(0) == ((Equals)((If)((On)rules.get(4)).getCallback()[0]).getCondition()).getTest()[1]);
     }
 }

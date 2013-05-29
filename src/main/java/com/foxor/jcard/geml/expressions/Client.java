@@ -43,6 +43,7 @@ public class Client extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
+        m.addRandomness(receiveMs);
         return action.execute(m);
     }
 }

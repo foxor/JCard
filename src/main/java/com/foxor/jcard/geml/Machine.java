@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Stack;
 
 import org.yaml.snakeyaml.Yaml;
@@ -38,12 +39,15 @@ public class Machine {
     
     protected Yaml yaml;
     
+    protected Random rng;
+    
     public Machine() {
         outgoingMessages = new ArrayList<String>();
         frames = new Stack<Machine.Frame>();
         frames.push(new Frame(null, new HashMap<String, GObject>()));
         globals = new HashMap<String, GObject>();
         yaml = new Yaml();
+        rng = new Random(0);
     }
     
     public void addMessage(Expression message) {
@@ -58,6 +62,10 @@ public class Machine {
     
     public Collection<GObject> getGlobals() {
         return globals.values();
+    }
+    
+    public GObject getGlobal(String id) {
+        return globals.get(id);
     }
     
     public GObject getContext() {
@@ -94,7 +102,20 @@ public class Machine {
         }
     }
     
+    public void addRandomness(long val) {
+        rng.setSeed(rng.nextLong() ^ val);
+    }
+    
+    public int randomInt(int max) {
+        return rng.nextInt(max);
+    }
+    
+    public GObject copy(GObject source) {
+        return (GObject)yaml.load(yaml.dump(source));
+    }
+    
     public List<String> process(List<Expression> rules, List<Expression> turns) throws Exception {
+        sendMessages = turns.size() == 0;
         for (Expression rule : rules) {
             rule.execute(this);
         }

@@ -1,5 +1,9 @@
 package com.foxor.jcard.geml.expressions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.GObject;
 
 /**
@@ -48,6 +52,24 @@ public class Zone extends GObject {
      */
     protected boolean shuffled;
     
+    /**
+     * The cards in this zone
+     */
+    protected List<Expression> cards;
+    
+    public void addCard(Expression card) {
+        if (cards == null) {
+            cards = new ArrayList<Expression>();
+        }
+        cards.add(card);
+    }
+    
+    public List<Expression> getCards() {
+        return cards;
+    }
+    public void setCards(List<Expression> cards) {
+        this.cards = cards;
+    }
     public boolean isHidden() {
         return hidden;
     }

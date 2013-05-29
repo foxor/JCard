@@ -27,7 +27,8 @@ public class On extends Expression {
     /**
      * The expression to call, with target as context
      */
-    protected Expression callback;
+    protected Expression[] callback;
+    
     public Expression getTarget() {
         return target;
     }
@@ -40,10 +41,10 @@ public class On extends Expression {
     public void setEvent(String event) {
         this.event = event;
     }
-    public Expression getCallback() {
+    public Expression[] getCallback() {
         return callback;
     }
-    public void setCallback(Expression callback) {
+    public void setCallback(Expression[] callback) {
         this.callback = callback;
     }
     
@@ -54,7 +55,7 @@ public class On extends Expression {
             target = m.getContext();
         }
         if (target != null && GObject.class.isAssignableFrom(target.getClass())) {
-            ((GObject)target.execute(m)).addEventListener(event, callback);
+            ((GObject)target.execute(m)).addEventListener(event, m, callback);
         }
         target = oldTarget;
         return this;
