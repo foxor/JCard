@@ -10,6 +10,8 @@ import java.util.Stack;
 
 import org.yaml.snakeyaml.Yaml;
 
+import com.foxor.jcard.geml.expressions.Ply;
+
 public class Machine {
     
     private class Frame {
@@ -28,7 +30,7 @@ public class Machine {
         
     protected Stack<Frame> frames;
     
-    protected List<String> outgoingMessages;
+    protected List<Expression> outgoingMessages;
     
     /**
      * We only want to send messages that are new to the client.
@@ -42,7 +44,7 @@ public class Machine {
     protected Random rng;
     
     public Machine() {
-        outgoingMessages = new ArrayList<String>();
+        outgoingMessages = new ArrayList<Expression>();
         frames = new Stack<Machine.Frame>();
         frames.push(new Frame(null, new HashMap<String, GObject>()));
         globals = new HashMap<String, GObject>();
@@ -50,9 +52,17 @@ public class Machine {
         rng = new Random(0);
     }
     
+    private static String GemlToYaml(String geml) {
+        return geml.replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
+    }
+    
+    private static String YamlToGeml(String yaml) {
+        return yaml.replaceAll("!!com.foxor.jcard.geml.expressions.", "!!");
+    }
+    
     public void addMessage(Expression message) {
         if (sendMessages) {
-            outgoingMessages.add(yaml.dump(message));
+            outgoingMessages.add(message);
         }
     }
     
@@ -114,7 +124,20 @@ public class Machine {
         return (GObject)yaml.load(yaml.dump(source));
     }
     
-    public List<String> process(List<Expression> rules, List<Expression> turns) throws Exception {
+    @SuppressWarnings("unchecked")
+    public String process(String geml) throws Exception {
+        Map<String, Object> gemlLoaded = ((Map<String, Object>)yaml.load(GemlToYaml(geml)));
+        List<Expression> rules = (List<Expression>)gemlLoaded.get("rules");
+        List<Expression> turns = (List<Expression>)gemlLoaded.get("turns");
+        List<Expression> messages = processGeml(rules, turns);
+        messages.add(0, ((Ply)turns.get(turns.size() - 1)).getMessages().get(0));
+        Ply response = new Ply();
+        response.setMessages(messages);
+        String yamlResponse = yaml.dump(response);
+        return YamlToGeml(yamlResponse);
+    }
+    
+    private List<Expression> processGeml(List<Expression> rules, List<Expression> turns) throws Exception {
         sendMessages = turns.size() == 0;
         for (Expression rule : rules) {
             rule.execute(this);

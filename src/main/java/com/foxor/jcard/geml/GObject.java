@@ -2,6 +2,7 @@ package com.foxor.jcard.geml;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public abstract class GObject extends Expression {
     
@@ -70,7 +71,7 @@ public abstract class GObject extends Expression {
     @Override
     public Expression execute(Machine m) throws Exception {
         // We might have already created ourselves, in which case we don't want another one
-        if (getId() != "") {
+        if (getId() != null) {
             GObject existing = m.getGlobal(getId());
             if (existing != null) {
                 return existing;
@@ -79,6 +80,10 @@ public abstract class GObject extends Expression {
         // We never want to modify the GEML AST loaded from the source file
         // We copy this here, so the copy ends up as the GObject in memory, which will have a snapshot of our data
         GObject copy = m.copy(this);
+        if (getId() == null) {
+            // After we copy ourselves, the generated object does not continue to do so 
+            copy.setId(UUID.randomUUID().toString());
+        }
         if (data != null) {
             for (String key : this.data.keySet()) {
                 copy.data.put(key, this.data.get(key).execute(m));

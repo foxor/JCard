@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import com.foxor.jcard.controllers.BaseController;
 import com.foxor.jcard.geml.expressions.Card;
 import com.foxor.jcard.geml.expressions.Equals;
 import com.foxor.jcard.geml.expressions.If;
@@ -41,7 +40,8 @@ public class SerializationTest {
                 "    !!Server {action: !!ShowMessage {text: \"You Win!\"}},\n" +
                 "  ]}\n" +
                 "]\n";
-        List<Object> rules = (List<Object>)((Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml))).get("rules"); 
+        testGeml = testGeml.replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
+        List<Object> rules = (List<Object>)((Map<String, Object>)yaml.load(testGeml)).get("rules"); 
         Assert.assertEquals(rules.get(0).getClass(), Zone.class);
         Assert.assertEquals(rules.get(1).getClass(), Zone.class);
         Assert.assertEquals(rules.get(2).getClass(), Card.class);

@@ -1,24 +1,21 @@
 package com.foxor.jcard.test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import com.foxor.jcard.controllers.BaseController;
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
 import com.foxor.jcard.geml.expressions.MoveTo;
+import com.foxor.jcard.geml.expressions.Ply;
 import com.foxor.jcard.geml.expressions.ShowMessage;
 import com.foxor.jcard.geml.expressions.Zone;
 
 public class GemlMachineTest {
     
-    @SuppressWarnings("unchecked")
     @Test
     public void basicGameTest() throws Exception {
         Yaml yaml = new Yaml();
@@ -42,16 +39,13 @@ public class GemlMachineTest {
                 "    !!Client {action: !!Click {target: *card}},\n" +
                 "  ]}\n" +
                 "]\n";
-        Map<String, Object> testGemlLoaded = ((Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml)));
-        List<Expression> rules = (List<Expression>)testGemlLoaded.get("rules");
-        List<Expression> turns = (List<Expression>)testGemlLoaded.get("turns");
         Machine machine = new Machine();
-        List<String> producedExpressions = machine.process(rules, turns);
-        Assert.assertEquals(((Zone)((MoveTo)yaml.load(producedExpressions.get(0))).getZone()).getId(), "right");
-        Assert.assertEquals(((ShowMessage)yaml.load(producedExpressions.get(1))).getText(), "You Win!");
+        String response = machine.process(testGeml).replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
+        List<Expression> producedExpressions = ((Ply)yaml.load(response)).getMessages(); 
+        Assert.assertEquals(((Zone)((MoveTo)producedExpressions.get(1)).getZone()).getId(), "right");
+        Assert.assertEquals(((ShowMessage)producedExpressions.get(2)).getText(), "You Win!");
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void blackJackTest() throws Exception {
         Yaml yaml = new Yaml();
@@ -82,11 +76,8 @@ public class GemlMachineTest {
                 "    !!Client {action: !!Click {target: *hit}, receiveMs: 944},\n" +
                 "  ]}\n" +
                 "]\n";
-        Map<String, Object> testGemlLoaded = ((Map<String, Object>)yaml.load(BaseController.GemlToYaml(testGeml)));
-        List<Expression> rules = (List<Expression>)testGemlLoaded.get("rules");
-        List<Expression> turns = (List<Expression>)testGemlLoaded.get("turns");
         Machine machine = new Machine();
-        List<String> serverMessages = machine.process(rules, new ArrayList<Expression>());
-        Assert.assertTrue(serverMessages.size() > 0);
+        String response = machine.process(testGeml).replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
+        List<Expression> producedExpressions = ((Ply)yaml.load(response)).getMessages();
     }
 }

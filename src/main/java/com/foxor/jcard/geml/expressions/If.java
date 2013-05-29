@@ -2,7 +2,6 @@ package com.foxor.jcard.geml.expressions;
 
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
-import com.foxor.jcard.geml.Type;
 
 /**
  * 

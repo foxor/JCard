@@ -1,4 +1,6 @@
-package com.foxor.jcard.geml;
+package com.foxor.jcard.geml.expressions;
+
+import com.foxor.jcard.geml.GObject;
 
 public class Type<T> extends GObject{
     

@@ -1,5 +1,7 @@
 package com.foxor.jcard.geml.expressions;
 
+import java.util.List;
+
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
 
@@ -17,13 +19,13 @@ public class Ply extends Expression {
     /**
      * The expressions from client and server in this ply
      */
-    protected Expression[] messages;
+    protected List<Expression> messages;
 
-    public Expression[] getMessages() {
+    public List<Expression> getMessages() {
         return messages;
     }
 
-    public void setMessages(Expression[] messages) {
+    public void setMessages(List<Expression> messages) {
         this.messages = messages;
     }
 

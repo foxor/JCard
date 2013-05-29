@@ -44,8 +44,8 @@ public class MoveTo extends Expression {
         if (card == null) {
             card = m.getContext();
         }
-        Card.LinkCardZone(card.execute(m), zone.execute(m));
         m.addMessage(this);
+        Card.LinkCardZone(card.execute(m), zone.execute(m));
         m.broadcastEvent(EVENT_CODE);
         card = oldCard;
         return this;
