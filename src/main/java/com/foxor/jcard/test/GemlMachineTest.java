@@ -11,6 +11,7 @@ import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
 import com.foxor.jcard.geml.expressions.MoveTo;
 import com.foxor.jcard.geml.expressions.Ply;
+import com.foxor.jcard.geml.expressions.Server;
 import com.foxor.jcard.geml.expressions.ShowMessage;
 import com.foxor.jcard.geml.expressions.Zone;
 
@@ -42,8 +43,8 @@ public class GemlMachineTest {
         Machine machine = new Machine();
         String response = machine.process(testGeml).replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
         List<Expression> producedExpressions = ((Ply)yaml.load(response)).getMessages(); 
-        Assert.assertEquals(((Zone)((MoveTo)producedExpressions.get(1)).getZone()).getId(), "right");
-        Assert.assertEquals(((ShowMessage)producedExpressions.get(2)).getText(), "You Win!");
+        Assert.assertEquals(((Zone)((MoveTo)((Server)producedExpressions.get(1)).getAction()).getZone()).getId(), "right");
+        Assert.assertEquals(((ShowMessage)((Server)producedExpressions.get(2)).getAction()).getText(), "You Win!");
     }
     
     @Test

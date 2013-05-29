@@ -11,6 +11,7 @@ import java.util.Stack;
 import org.yaml.snakeyaml.Yaml;
 
 import com.foxor.jcard.geml.expressions.Ply;
+import com.foxor.jcard.geml.expressions.Server;
 
 public class Machine {
     
@@ -130,6 +131,11 @@ public class Machine {
         List<Expression> rules = (List<Expression>)gemlLoaded.get("rules");
         List<Expression> turns = (List<Expression>)gemlLoaded.get("turns");
         List<Expression> messages = processGeml(rules, turns);
+        for (int i = 0; i < messages.size(); i++) {
+            Server message = new Server();
+            message.setAction(messages.get(i));
+            messages.set(i, message);
+        }
         messages.add(0, ((Ply)turns.get(turns.size() - 1)).getMessages().get(0));
         Ply response = new Ply();
         response.setMessages(messages);
