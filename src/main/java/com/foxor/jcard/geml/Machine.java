@@ -133,6 +133,10 @@ public class Machine {
         List<Expression> messages = processGeml(rules, turns);
         for (int i = 0; i < messages.size(); i++) {
             Server message = new Server();
+            // Currently, this includes much more information about the object than we need, 
+            // and it is information that is accurate at the end of the processing,
+            // rather than when the message was sent.
+            // I'm not sure if that is a problem or not
             message.setAction(messages.get(i));
             messages.set(i, message);
         }
