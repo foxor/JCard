@@ -2,7 +2,6 @@ package com.foxor.jcard.geml;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public abstract class GObject extends Expression {
     
@@ -17,6 +16,8 @@ public abstract class GObject extends Expression {
      * Sometimes it's not possible to generate YAML with the correct anchors since, it is part of a larger GEML document.
      * 
      * Ids are used on the client and server to retrieve specific objects.
+     * 
+     * If a GObject doesn't have an id, it will generate a new object each time it is executed.  If it does have an id, it will return the same object every time.
      */
     protected String id;
     
@@ -36,9 +37,6 @@ public abstract class GObject extends Expression {
     }
 
     public String getId() {
-        if (id == "") {
-            setId(UUID.randomUUID().toString());
-        }
         return id;
     }
 
@@ -72,9 +70,11 @@ public abstract class GObject extends Expression {
     @Override
     public Expression execute(Machine m) throws Exception {
         // We might have already created ourselves, in which case we don't want another one
-        GObject existing = m.getGlobal(getId());
-        if (existing != null) {
-            return existing;
+        if (getId() != "") {
+            GObject existing = m.getGlobal(getId());
+            if (existing != null) {
+                return existing;
+            }
         }
         // We never want to modify the GEML AST loaded from the source file
         // We copy this here, so the copy ends up as the GObject in memory, which will have a snapshot of our data
