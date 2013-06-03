@@ -1,5 +1,7 @@
 package com.foxor.jcard.geml.expressions;
 
+import java.util.List;
+
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.GObject;
 import com.foxor.jcard.geml.Machine;
@@ -22,13 +24,13 @@ public class All extends Expression {
     /**
      * A function to map across all matched expressions
      */
-    protected Expression callback;
+    protected List<Expression> callback;
 
-    public Expression getCallback() {
+    public List<Expression> getCallback() {
         return callback;
     }
 
-    public void setCallback(Expression callback) {
+    public void setCallback(List<Expression> callback) {
         this.callback = callback;
     }
 
@@ -42,15 +44,18 @@ public class All extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        m.pushFrame();
+        Expression last = null;
         for (GObject obj : m.getGlobals()) {
             if (ofClass != null && !obj.getClass().getName().endsWith(ofClass)) {
                 continue;
             }
+            m.pushFrame();
             m.setContext(obj);
-            callback.execute(m);
+            for (Expression e : callback) {
+                last = e.execute(m);
+            }
+            m.popFrame();
         }
-        m.popFrame();
-        return this;
+        return last;
     }
 }

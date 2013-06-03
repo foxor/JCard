@@ -1,5 +1,7 @@
 package com.foxor.jcard.geml.expressions;
 
+import java.util.List;
+
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
 
@@ -22,7 +24,7 @@ public class For extends Expression {
     /**
      * The list of values for the iteration variable to assume
      */
-    protected Object[] in;
+    protected Expression in;
     
     /**
      * The list of expressions to process for each element
@@ -37,11 +39,11 @@ public class For extends Expression {
         this.name = name;
     }
 
-    public Object[] getIn() {
+    public Expression getIn() {
         return in;
     }
 
-    public void setIn(Object[] in) {
+    public void setIn(Expression in) {
         this.in = in;
     }
 
@@ -55,7 +57,7 @@ public class For extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        for(Object pojo : in) {
+        for(Object pojo : (List<?>)((Type<?>)in.execute(m)).getValue()) {
             m.pushFrame();
             m.addLocal(name, Type.TypeBox(pojo));
             for (Expression e : loop) {

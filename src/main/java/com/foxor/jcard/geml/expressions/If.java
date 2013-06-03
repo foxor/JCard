@@ -1,5 +1,7 @@
 package com.foxor.jcard.geml.expressions;
 
+import java.util.List;
+
 import com.foxor.jcard.geml.Expression;
 import com.foxor.jcard.geml.Machine;
 
@@ -23,16 +25,17 @@ public class If extends Expression {
     /**
      * The expression to evaluate if condition is not false
      */
-    protected Expression then;
+    protected List<Expression> then;
     
     /**
      * The expression to evaluate if condition is either null or a Boolean with getValue() == false
      */
-    protected Expression otherwise;
-    public Expression getOtherwise() {
+    protected List<Expression> otherwise;
+    
+    public List<Expression> getOtherwise() {
         return otherwise;
     }
-    public void setOtherwise(Expression otherwise) {
+    public void setOtherwise(List<Expression> otherwise) {
         this.otherwise = otherwise;
     }
     public Expression getCondition() {
@@ -41,22 +44,33 @@ public class If extends Expression {
     public void setCondition(Expression condition) {
         this.condition = condition;
     }
-    public Expression getThen() {
+    public List<Expression> getThen() {
         return then;
     }
-    public void setThen(Expression then) {
+    public void setThen(List<Expression> then) {
         this.then = then;
     }
     
     @Override
     public Expression execute(Machine m) throws Exception {
         Expression conditionValue = condition.execute(m);
-        Type<Boolean> falsehood = Type.TypeBox(false);
+        @SuppressWarnings("unchecked")
+        Type<Boolean> falsehood = (Type<Boolean>)Type.TypeBox(false);
+        Expression last = null;
         if (conditionValue == null || falsehood.equals(conditionValue)) {
-            return otherwise.execute(m);
+            if (otherwise != null) {
+                for (Expression e : otherwise) {
+                    last = e.execute(m);
+                }
+            }
         }
         else {
-            return then.execute(m);
+            if (then != null) {
+                for (Expression e : then) {
+                    last = e.execute(m);
+                }
+            }
         }
+        return last;
     }
 }
