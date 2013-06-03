@@ -22,9 +22,16 @@ public class Type<T> extends GObject{
         return value.equals(((Type<?>)other).getValue());
     }
     
-    public static <B> Type<B> TypeBox(B value) {
+    public static <B> GObject TypeBox(B value) {
+        if (GObject.class.isAssignableFrom(value.getClass())) {
+            return (GObject)value;
+        }
         Type<B> box = new Type<B>();
         box.setValue(value);
         return box;
+    }
+    
+    public static <B> B TypeUnbox(Type<B> box) {
+        return box.getValue();
     }
 }
