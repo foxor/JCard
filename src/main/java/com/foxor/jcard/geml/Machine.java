@@ -20,10 +20,10 @@ public class Machine {
     
         public Map<String, GObject> locals;
 
-        public Frame(GObject context, Map<String, GObject> locals) {
+        public Frame(GObject context) {
             super();
             this.context = context;
-            this.locals = locals;
+            this.locals = new HashMap<String, GObject>();
         }
     }
     
@@ -47,7 +47,7 @@ public class Machine {
     public Machine() {
         outgoingMessages = new ArrayList<Expression>();
         frames = new Stack<Machine.Frame>();
-        frames.push(new Frame(null, new HashMap<String, GObject>()));
+        frames.push(new Frame(null));
         globals = new HashMap<String, GObject>();
         yaml = new Yaml();
         rng = new Random(0);
@@ -88,7 +88,7 @@ public class Machine {
     }
     
     public void pushFrame() {
-        frames.push(new Frame(getContext(), new HashMap<String, GObject>(frames.peek().locals)));
+        frames.push(new Frame(getContext()));
     }
     
     public void popFrame() {
@@ -96,15 +96,22 @@ public class Machine {
     }
     
     public void addLocal(String name, GObject value) {
+        for (int i = frames.size() - 1; i >= 0; i--) {
+            if (frames.get(i).locals.containsKey(name)) {
+                frames.get(i).locals.put(name, value);
+                return;
+            }
+        }
         frames.peek().locals.put(name, value);
     }
     
-    public GObject getLocal(String name) {
-        GObject local = frames.peek().locals.get(name);
-        if (local == null) {
-            return globals.get(name);
+    public GObject getLocal(String name) throws Exception {
+        for (int i = frames.size() - 1; i >= 0; i--) {
+            if (frames.get(i).locals.containsKey(name)) {
+                return frames.get(i).locals.get(name);
+            }
         }
-        return local;
+        return globals.get(name);
     }
     
     public void broadcastEvent(String event) throws Exception {

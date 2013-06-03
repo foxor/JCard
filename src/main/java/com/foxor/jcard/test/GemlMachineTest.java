@@ -95,11 +95,9 @@ public class GemlMachineTest {
                 "  !!Draw {from: *deck, to: *dealerHand},\n" +
                 "  !!Draw {from: *deck, to: *playerHand},\n" +
                 "  !!Draw {from: *deck, to: *dealerHand},\n" +
-                "  !!All {ofClass: Zone, callback: [\n" +
-                "    !!On {event: MoveTo, callback: [\n" +
-                "      !!If {condition: !!GreaterThan {test: !!Local {name: computeHandValue}, value: 21}, then: [\n" +
-                "        !!ShowMessage {text: Bust!}\n" +
-                "      ]}\n" +
+                "  !!On {target: *playerHand, event: MoveTo, callback: [\n" +
+                "    !!If {condition: !!GreaterThan {test: !!Local {name: computeHandValue}, value: 21}, then: [\n" +
+                "      !!ShowMessage {text: Bust!}\n" +
                 "    ]}\n" +
                 "  ]},\n" +
                 "]\n" +
@@ -111,5 +109,6 @@ public class GemlMachineTest {
         Machine machine = new Machine();
         String response = machine.process(testGeml).replaceAll("!!", "!!com.foxor.jcard.geml.expressions.");
         List<Expression> producedExpressions = ((Ply)yaml.load(response)).getMessages();
+        Assert.assertEquals("Bust!", ((ShowMessage)((Server)producedExpressions.get(2)).getAction()).getText());
     }
 }
