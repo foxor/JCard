@@ -1,6 +1,7 @@
 package com.foxor.jcard.geml.expressions;
 
 import com.foxor.jcard.geml.Expression;
+import com.foxor.jcard.geml.GObject;
 import com.foxor.jcard.geml.Machine;
 
 /**
@@ -10,7 +11,7 @@ import com.foxor.jcard.geml.Machine;
  * @author ijames1
  *
  */
-public class Local extends Expression {
+public class Local extends GObject {
     
     /**
      * The name of the variable to retrieve
@@ -27,6 +28,6 @@ public class Local extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        return m.getLocal(name);
+        return m.getLocal(name).execute(m);
     }
 }
