@@ -29,4 +29,14 @@ public class Card extends GObject {
         ((Card)card).setZone(zone);
         ((Zone)zone).addCard(card);
     }
+    
+    public static void UnlinkCardZone(Expression card) {
+        Card c = (Card)card;
+        Zone z = (Zone)c.getZone();
+        if (z == null) {
+            return;
+        }
+        z.removeCard(c);
+        c.setZone(null);
+    }
 }

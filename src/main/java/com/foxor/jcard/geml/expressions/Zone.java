@@ -65,6 +65,10 @@ public class Zone extends GObject {
         cards.add(card);
     }
     
+    public void removeCard(Expression card) {
+        cards.remove(card);
+    }
+    
     public List<Expression> getCards() {
         return cards;
     }
