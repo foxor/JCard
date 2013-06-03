@@ -28,7 +28,8 @@ public class Call extends GObject {
     public Expression execute(Machine m) throws Exception {
         if (source != null) {
             m.pushFrame();
-            m.setContext(source);
+            // We have to evaluate the source, since we didn't get it from the machine
+            m.setContext((GObject)source.execute(m));
         }
         Expression val = m.getLocal(name).execute(m);
         if (source != null) {
