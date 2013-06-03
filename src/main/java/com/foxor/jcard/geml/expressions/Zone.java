@@ -57,10 +57,11 @@ public class Zone extends GObject {
      */
     protected List<Expression> cards;
     
+    public Zone() {
+        cards = new ArrayList<Expression>();
+    }
+    
     public void addCard(Expression card) {
-        if (cards == null) {
-            cards = new ArrayList<Expression>();
-        }
         cards.add(card);
     }
     
