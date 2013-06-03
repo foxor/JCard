@@ -108,7 +108,7 @@ public class Machine {
     }
     
     public void broadcastEvent(String event) throws Exception {
-        for (GObject obj : getGlobals()) {
+        for (GObject obj : getGlobals().toArray(new GObject[0])) {
             obj.triggerEvent(event, this);
         }
     }
