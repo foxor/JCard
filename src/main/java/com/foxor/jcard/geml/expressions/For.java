@@ -57,7 +57,7 @@ public class For extends Expression {
 
     @Override
     public Expression execute(Machine m) throws Exception {
-        for(Object pojo : (List<?>)((Type<?>)in.execute(m)).getValue()) {
+        for(Object pojo : ((List<?>)((Type<?>)in.execute(m)).getValue()).toArray(new Object[0])) {
             m.pushFrame();
             m.addLocal(name, Type.TypeBox(pojo));
             for (Expression e : loop) {
